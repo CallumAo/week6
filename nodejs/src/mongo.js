@@ -1,4 +1,3 @@
-
 //Object data modelling library for mongo
 const mongoose = require('mongoose');
 
@@ -16,7 +15,7 @@ const app = express()
 const port = 3000
 
 //connection string listing the mongo servers. This is an alternative to using a load balancer. THIS SHOULD BE DISCUSSED IN YOUR ASSIGNMENT.
-const connectionString = 'mongodb://localmongo1:27017,localmongo2:27017,localmongo3:27017/sweetShopDB?replicaSet=rs0';
+const connectionString = 'mongodb://localmongo1:27017,localmongo2:27017,localmongo3:27017/NotFLIXDB?replicaSet=rs0';
 
 setInterval(function() {
 
@@ -36,27 +35,31 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
 
-var stockSchema = new Schema({
+var infoSchema = new Schema({
   _id: Number,
-  item: String,
-  price: Number,
-  quantity: Number
+  userName: String,
+  titleID: Number,
+  userAction: Number,
+  dateandTime: Number,
+  pointofInteraction: Number,
+  typeofInteraction: Number
+  
 });
 
-var stockModel = mongoose.model('Stock', stockSchema, 'stock');
+var infoModel = mongoose.model('Info', infoSchema, 'info');
 
 
 
 app.get('/', (req, res) => {
-  stockModel.find({},'item price quantity lastName', (err, stock) => {
+  infoModel.find({},'_id userName titleID userAction dateandTime pointofInteraction typeofInteraction', (err, info) => {
     if(err) return handleError(err);
-    res.send(JSON.stringify(stock))
+    res.send(JSON.stringify(info))
   }) 
 })
 
 app.post('/',  (req, res) => {
-  var awesome_instance = new SomeModel(req.body);
-  awesome_instance.save(function (err) {
+  var new_info_instance = new infoModel(req.body);
+  new_info_instance.save(function (err) {
   if (err) res.send('Error');
     res.send(JSON.stringify(req.body))
   });
