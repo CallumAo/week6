@@ -40,7 +40,6 @@ var stockSchema = new Schema({
   _id: Number,
   item: String,
   price: Number,
-  priceee: Number,
   quantity: Number
 });
 
